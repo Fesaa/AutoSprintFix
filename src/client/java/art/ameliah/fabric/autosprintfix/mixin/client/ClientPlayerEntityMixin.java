@@ -1,5 +1,6 @@
 package art.ameliah.fabric.autosprintfix.mixin.client;
 
+import art.ameliah.fabric.autosprintfix.AutoSprintFixClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket;
@@ -15,9 +16,13 @@ public class ClientPlayerEntityMixin {
 
     @Shadow @Final public ClientPlayNetworkHandler networkHandler;
 
-    @Inject(at = @At("HEAD"), method = "requestRespawn", cancellable = true)
-    private void requestRespawn(CallbackInfo ci) {
-        networkHandler.sendPacket(new ClientStatusC2SPacket(net.minecraft.network.packet.c2s.play.ClientStatusC2SPacket.Mode.PERFORM_RESPAWN));
-        ci.cancel();
+    @Inject(at = @At("HEAD"), method = "requestRespawn")
+    private void requestRespawnHead(CallbackInfo ci) {
+        AutoSprintFixClient.respawning = true;
+    }
+
+    @Inject(at = @At("TAIL"), method = "requestRespawn")
+    private void requestRespawnTail(CallbackInfo ci) {
+        AutoSprintFixClient.respawning = false;
     }
 }

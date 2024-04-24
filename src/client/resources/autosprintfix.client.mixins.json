@@ -3,7 +3,8 @@
   "package": "art.ameliah.fabric.autosprintfix.mixin.client",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "ClientPlayerEntityMixin"
+    "ClientPlayerEntityMixin",
+    "StickyKeyBindingMixin"
   ],
   "injectors": {
     "defaultRequire": 1
